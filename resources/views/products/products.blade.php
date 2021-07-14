@@ -67,18 +67,18 @@
                                     <td>{{$product->Brand->__get("name")}}</td>
 
                                     <td>
-                                        <form action="{{url("/products/edit",["id"=>$product->id])}}" method="get">
+                                        <form action="{{url("/admin/products/edit",["id"=>$product->id])}}" method="get">
                                             <button type="submit" class="btn btn-outline-primary">Sửa</button>
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="{{url("/products/delete",["id"=>$product->id])}}" method="get">
+                                        <form action="{{url("/admin/products/delete",["id"=>$product->id])}}" method="get">
 
                                             <button type="submit" class="btn btn-outline-success">Xóa</button>
                                         </form>
                                     </td>
                                     <td>
-                                        <form action="#" method="post">
+                                        <form action="{{url("/admin/products/add-to-cart",["id"=>$product->id])}}" method="get">
                                             <button type="submit" class="btn btn-outline-danger">Cart+</button>
                                         </form>
                                     </td>

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use mysql_xdevapi\Exception;
 
 class ProductController extends Controller
@@ -181,6 +183,104 @@ class ProductController extends Controller
         Product::findOrFail($id)->delete();
         return redirect()->to("/products");
 
+    }
+    public function addToCart($id){
+//        $product = Product::findOrFail($id);
+//        $cart=[];
+//        if (session()->has("cart")){
+//            $cart = session("cart");
+//        }
+//        if ($this->checkCart($cart,$product)){//san pham chua co trong igo hang
+//            $product->cart_qty=1;// gior hangf them 1 thuoc tinh ngoai le dede bieu thi so luong san phaam trong gio hang
+//            $cart[]=$product;
+//        }else{
+//            for ($i=0;$i<count($cart);$i++){
+//                if ($cart[$i]->id == $product->id){
+//                    $cart[$i]->cartqty = $cart[$i]->cartqty +1;
+//                }
+//            }
+//        }
+//        session("cart",$cart);
+//        return redirect()->to("cart");
+        $product = Product::findOrFail($id);
+        $cart=[];
+        if (Session::has("cart")){
+            $cart = Session::get("cart");
+        }
+        if (!$this->checkCart($cart,$product)){//san pham chua co trong igo hang
+            $product->cart_qty=1;// gior hangf them 1 thuoc tinh ngoai le dede bieu thi so luong san phaam trong gio hang
+            $cart[]=$product;
+        }else{
+            for ($i=0;$i<count($cart);$i++){
+                if ($cart[$i]->id == $product->id){
+                    $cart[$i]->cart_qty = $cart[$i]->cart_qty +1;
+                }
+            }
+        }
+        Session::put("cart",$cart);
+        return redirect()->to("cart");
+
+    }
+    private function checkCart($cart,$p){
+        foreach ($cart as $item){
+            if ($item->id==$p->id){
+                return true;
+            }
+        }
+        return false;
+    }
+    public function cart(){
+        $cart=[];
+        if (session()->has("cart")){
+            $cart= session("cart");
+        }
+        dd($cart);
+    }
+    public function checkout(){
+        $cart = [];// mảng giỏ hàng
+        if(session()->has("cart")){ // nếu có giỏ hàng rồi
+            $cart = session("cart");// $_SESSION["cart"]
+        }
+        if(count($cart)){
+            return view("checkout",["cart"=>$cart]);
+        }
+        return redirect()->to("cart");
+    }
+    public function placeOrder(Request $request){
+        $request->validate([
+            "customer_name"=>"required",
+            "customer_tel"=>"required",
+            "customer_address"=>"required",
+        ]);
+        try {
+            $cart = Session::get("cart");
+            if (count($cart)==0)return redirect()->to("/");
+            $grandTotal=0;
+            foreach ($cart as $item){
+                $grandTotal += $item->price*$item->cart_qty;
+            }
+            $order = Order::create([
+                "customer_name"=>$request->get("customer_name"),
+                "customer_tel"=>$request->get("customer_tel"),
+                "customer_address"=>$request->get("customer_address"),
+                "grand_total"=>$grandTotal,
+            ]);
+            foreach ($cart as $item){
+                DB::table("order_items")->insert([
+                    "order_id"=>$order->id,
+                    "product_id"=>$item->id,
+                    "price"=>$item->price,
+                    "qty"=>$item->cart_qty,
+                ]);
+                $p = Product::find($item->id);
+                $p->qty-=$item->cart_qty;
+                $p->save();
+            }
+            Session::forget("cart");
+            return "done";
+        }catch (Exception $e){
+            die("error");
+        }
     }
     //
 }

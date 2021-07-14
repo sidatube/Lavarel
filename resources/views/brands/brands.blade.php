@@ -49,8 +49,8 @@
                                     <td>{{$brand->id}}</td>
                                     <td>{{$brand->name}}</td>
                                     <td>{{$brand->products_count}}</td>
-                                    <td>{{$brand->created_at}}</td>
-                                    <td>{{$brand->updated_at}}</td>
+                                    <td>{{formatDate($brand->created_at)}}</td>
+                                    <td>{{formatDate($brand->updated_at)}}</td>
                                     <td><a class="btn btn-outline-success" href="{{url("/brands/edit",["id"=>$brand->id])}}">Điều chỉnh</a></td>
                                 </tr>
                             @endforeach
