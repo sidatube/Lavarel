@@ -49,6 +49,15 @@
                                         <label>Customer Address</label>
                                         <textarea class="form-control" name="customer_address"></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label>City</label>
+                                        <select class="form-control">
+                                            <option disabled selected>Hãy chọn thành phố</option>
+                                            @foreach($cities as $as)
+                                                <option value="{{$as->__get("city")}}">{{$as->__get("city")}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
 
                                 </div>
                                 <div class="col-md-6">

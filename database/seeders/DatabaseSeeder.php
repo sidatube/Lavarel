@@ -16,15 +16,16 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-//        $this->call([
+        $this->call([
+            CitySeeder::class
 //            CategorySeeder::class,
 //            BrandSeeder::class,
 //            ProductSeeder::class,
-//        ]);
-        DB::table("admins")->insert([
-           "name"=>"Administrator",
-            "email"=>"admin@gmail.com",
-            "password"=>bcrypt("12345678")
         ]);
+//        DB::table("admins")->insert([
+//           "name"=>"Administrator",
+//            "email"=>"admin@gmail.com",
+//            "password"=>bcrypt("12345678")
+//        ]);
     }
 }

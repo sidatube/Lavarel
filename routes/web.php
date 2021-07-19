@@ -48,7 +48,17 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::get('/', function (){
     return redirect()->to("admin");
 });
+//Route::get('/', function (){
+//    return view("spa_view");
+//});
+Route::get('/api', function (){
+    return view("checkoutReact");
+});
 Route::get('/cart', [ProductController::class,"cart"]);
 Route::get('/checkout', [ProductController::class,"checkout"]);
 Route::post('/checkout', [ProductController::class,"placeOrder"]);
+//api dssp
+Route::get("/product-list",[WebController::class,"productList"]);
+Route::get("/cart-api",[ProductController::class,"checkOutApi"]);
+Route::get("/city-api",[ProductController::class,"CityApi"]);
 

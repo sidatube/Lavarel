@@ -28,6 +28,7 @@ class Product extends Model
     public function GetImg(){
         if ($this->image){
             return asset("upload/".$this->image);
+
         }
         return null;
     }

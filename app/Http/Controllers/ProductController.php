@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Order;
 use App\Models\Product;
 use Carbon\Carbon;
@@ -234,7 +235,7 @@ class ProductController extends Controller
         if (session()->has("cart")){
             $cart= session("cart");
         }
-        dd($cart);
+        return redirect()->back();
     }
     public function checkout(){
         $cart = [];// mảng giỏ hàng
@@ -242,7 +243,8 @@ class ProductController extends Controller
             $cart = session("cart");// $_SESSION["cart"]
         }
         if(count($cart)){
-            return view("checkout",["cart"=>$cart]);
+            return view("checkout",["cart"=>$cart,
+                "cities"=>City::all()]);
         }
         return redirect()->to("cart");
     }
@@ -282,5 +284,32 @@ class ProductController extends Controller
             die("error");
         }
     }
+    public function checkOutApi(){
+        $cart=[];
+        if(session()->has("cart")){ // nếu có giỏ hàng rồi
+            $cart = session("cart");// $_SESSION["cart"]
+        }
+        $cart = [];// mảng giỏ hàng
+        if(session()->has("cart")){ // nếu có giỏ hàng rồi
+            $cart = session("cart");// $_SESSION["cart"]
+        }
+        if(count($cart)){
+            return response()->json([
+                "status"=>true,
+                "message"=>"Success",
+                "cart"=>$cart
+            ]);
+        }
+        return redirect()->to("cart");
+    }
     //
+    public  function CityApi(){
+        $city=City::all();
+        return response()->json([
+            "status"=>true,
+            "message"=>"Success",
+            "city"=>$city
+        ]);
+
+    }
 }

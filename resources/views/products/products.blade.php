@@ -25,7 +25,17 @@
 
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <a href="{{url("/products/new")}}" class="btn btn-outline-primary">Thêm mới</a>
+                                <a href="{{url("admin/products/new")}}" class="btn btn-outline-primary">Thêm mới</a>
+                            </div>
+                        </div>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <a href="{{url("/checkout")}}" class="btn btn-outline-primary">Checkout</a>
+                            </div>
+                        </div>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <a href="{{url("/api")}}" class="btn btn-outline-primary">Checkout react</a>
                             </div>
                         </div>
                     </div>
