@@ -2157,7 +2157,12 @@ var Example = /*#__PURE__*/function (_React$Component) {
                             GrandTotal += total;
                             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("tr", {
                               children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
-                                children: GetImg(e.image)
+                                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("img", {
+                                  style: {
+                                    maxWidth: 100
+                                  },
+                                  src: GetImg(e.image)
+                                })
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
                                 children: e.name
                               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("td", {
@@ -2215,11 +2220,11 @@ var Example = /*#__PURE__*/function (_React$Component) {
 
 function GetImg(img) {
   if (img != null) {
-    var a = "public/upload/" + img + "";
+    var a = "upload/" + img + "";
     return a;
   }
 
-  return "public/upload/noimg.jpg";
+  return "upload/noimg.jpg";
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Example);
